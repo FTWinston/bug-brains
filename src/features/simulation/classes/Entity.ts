@@ -1,30 +1,28 @@
 import type { IEntity } from '../types/IEntity';
-import type { WorldLocation } from './WorldLocation';
+import type { WorldCell } from './WorldCell';
 
 export class Entity implements IEntity {
-    constructor(location: WorldLocation) {
-        this.location = location;
+    constructor(location: WorldCell) {
+        this.cell = location;
     }
 
-    public location: WorldLocation;
+    public cell: WorldCell;
+    public readonly size: number = 1; // Default size of an entity, can be overridden by subclasses.
 
-    public get position() {
-        return this.location.position;
+    public get location() {
+        return this.cell;
     }
 
-    public moveTo(location: WorldLocation) {
-        if (this.location === location) {
+    public moveTo(location: WorldCell) {
+        if (this.cell === location) {
             return; // Already at the desired location.
         }
 
-        // Remove from current location.
-        const index = this.location.contents.indexOf(this);
-        if (index !== -1) {
-            this.location.contents.splice(index, 1);
+        if (location.tryAddEntity(this)) {
+            this.cell.removeEntity(this);
+            this.cell = location;
         }
-
-        // Add to new location.
-        this.location = location;
-        this.location.contents.push(this);
     }
+
+    act() {} // Placeholder that does nothing, overridden by Actor.
 }

@@ -1,5 +1,5 @@
-import type { Position } from './Position';
+import type { IWorldCell } from './IWorldCell';
 
 export interface IEntity {
-    position: Position;
+    location: IWorldCell;
 }

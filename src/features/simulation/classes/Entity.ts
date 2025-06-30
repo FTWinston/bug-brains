@@ -1,7 +1,7 @@
 import type { IEntity } from '../types/IEntity';
 import type { WorldCell } from './WorldCell';
 
-export class Entity implements IEntity {
+export abstract class Entity implements IEntity {
     constructor(location: WorldCell) {
         this.cell = location;
     }

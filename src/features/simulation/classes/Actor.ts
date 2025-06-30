@@ -1,9 +1,20 @@
 import type { IActor } from '../types/IActor';
 import type { Action } from '../types/Action';
 import type { BehaviorList } from '../types/BehaviorList';
+import { Entity } from './Entity';
+import type { WorldCell } from './WorldCell';
 
-export class Actor<TActor extends Actor<TActor>> implements IActor {
-    constructor(behaviors: BehaviorList<TActor>) {
+export abstract class ActorBase extends Entity implements IActor {
+    constructor(location: WorldCell) {
+        super(location);
+    }
+
+    abstract act(): void;
+}
+
+export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
+    constructor(location: WorldCell, behaviors: BehaviorList<TActor>) {
+        super(location)
         this.behaviors = behaviors;
     }
 

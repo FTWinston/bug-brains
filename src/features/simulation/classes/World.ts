@@ -5,7 +5,7 @@ import type { WorldCell } from './WorldCell';
 
 /** A world is a collection of cells, along with the entities in those cells. */
 export class World implements IWorld {
-    constructor(cells: IterableIterator<WorldCell>) {
+    constructor(readonly width: number, readonly height: number, cells: IterableIterator<WorldCell>) {
         this.allCells = new Set<WorldCell>(cells);
 
         for (const cell of cells) {

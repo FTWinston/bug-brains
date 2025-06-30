@@ -4,14 +4,14 @@ import type { Entity } from './Entity';
 
 /** A place in the world that can have entities in it. */
 export class WorldCell implements IWorldCell {
-    constructor(x: number, y: number, type: CellType = CellType.UndergroundSpace) {
-        this.x = x;
-        this.y = y;
+    constructor(row: number, col: number, type: CellType = CellType.UndergroundSpace) {
+        this.row = row;
+        this.col = col;
         this.type = type;
     }
 
-    readonly x: number;
-    readonly y: number;
+    readonly row: number;
+    readonly col: number;
     public type: CellType;
     private entities: Set<Entity> = new Set<Entity>();
     private static maxContentSize: number = 2;

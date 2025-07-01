@@ -1,6 +1,6 @@
 import { WorldCell } from '../classes/WorldCell';
 import { CellType } from '../types/CellType';
-import { indexFromCoordinate } from './coordinates';
+import { indexFromCoordinate } from 'src/utils/coordinates';
 
 export function createBasicWorld() {
     const rows = 30;

@@ -1,4 +1,4 @@
-import { Direction } from '../types/Direction';
+import { Direction } from '../features/simulation/types/Direction';
 
 export interface Coordinate {
     row: number;

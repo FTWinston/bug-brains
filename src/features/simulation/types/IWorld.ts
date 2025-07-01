@@ -1,7 +1,7 @@
 import type { IWorldCell } from './IWorldCell';
 
 export interface IWorld {
-    readonly width: number;
-    readonly height: number;
+    readonly rows: number;
+    readonly columns: number;
     get cells(): ReadonlySet<IWorldCell>;
 }

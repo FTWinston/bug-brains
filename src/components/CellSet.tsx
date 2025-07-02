@@ -1,10 +1,9 @@
-import type { CellType } from 'src/features/simulation/types/CellType';
-import { Cell } from './Cell';
+import { Cell, type CellData } from './Cell';
 import styles from './CellSet.module.scss';
 
 interface Props {
     columns: number;
-    cells: CellType[];
+    cells: CellData[];
     onClick?: (index: number) => void;
 }
 
@@ -35,14 +34,15 @@ export const CellSet: React.FC<Props> = props => {
         };
         
         return (
-            <li className={styles.cellWrapper} key={index} style={wrapperStyle}>
                 <Cell
-                    cellType={cell}
+                    key={index}
+                    style={wrapperStyle}
+                    cellType={cell.cellType}
+                    antColor={cell.antColor}
                     onClick={onClick ? () => onClick(index) : undefined}
                 >
                     {index+1}
                 </Cell>
-            </li>
         )
     });
     
@@ -61,9 +61,9 @@ export const CellSet: React.FC<Props> = props => {
 
     return (
         <div className={styles.root}>
-            <ul className={styles.cells} style={containerStyle}>
+            <div className={styles.cells} style={containerStyle}>
                 {contents}
-            </ul>
+            </div>
         </div>
     );
 }

@@ -8,16 +8,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
-.solidWall {
+.cellSolidWall {
     background-color: #666;
 }
 
-.undergroundSpace {
+.cellUndergroundSpace {
     background-color: #ccc;
 }
 
-.outdoorSpace {
+.cellOutdoorSpace {
     background-color: #fff;
+}
+
+.antRed {
+    color: red;
+}
+
+.antBlue {
+    color: blue;
 }

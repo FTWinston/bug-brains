@@ -1,11 +1,6 @@
 import type { PropsWithChildren } from 'react';
-import type { CellType } from 'src/features/simulation/types/CellType';
+import { CellType } from 'src/features/simulation/types/CellType';
 import styles from './Cell.module.scss';
-
-export enum Special {
-    Highlight = 1,
-    Error = 2,
-}
 
 interface Props {
     cellType: CellType;
@@ -13,18 +8,25 @@ interface Props {
 }
 
 export const Cell: React.FC<PropsWithChildren<Props>> = props => {
-    let content: React.ReactNode;
-
-    if (props.children) {
-        content = props.children;
+    let typeStyle: string;
+    switch (props.cellType) {
+        case CellType.UndergroundSpace:
+            typeStyle = styles.undergroundSpace;
+            break;
+        case CellType.OutdoorSpace:
+            typeStyle = styles.outdoorSpace;
+            break;
+        case CellType.SolidWall:
+            typeStyle = styles.solidWall;
+            break;
     }
 
     return (
         <div
-            className={styles.cell}
+            className={`${styles.cell} ${typeStyle}`}
             onClick={props.onClick}
         >
-            {content}
+            {props.children}
         </div>
     );
 }

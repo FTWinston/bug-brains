@@ -10,7 +10,7 @@ interface Props {
 
 const cellWidth = 2.3094;
 const cellHeight = 2;
-const gapSize = 0.025;
+const gapSize = 0.0125;
 
 export const CellSet: React.FC<Props> = props => {
     const { columns, cells, onClick } = props;
@@ -55,7 +55,7 @@ export const CellSet: React.FC<Props> = props => {
     */
 
     const containerStyle: React.CSSProperties = {
-        gridTemplateColumns: `repeat(${columns}, ${cellWidth * 0.25 + gapSize * 0.5}em ${cellWidth * 0.5 + gapSize}em ) ${cellWidth * 0.25 + gapSize * 0.5}em`,
+        gridTemplateColumns: `repeat(${columns}, calc(${cellWidth * 0.25 + gapSize * 0.5}em) calc(${cellWidth * 0.5 + gapSize}em) ) calc(${cellWidth * 0.25 + gapSize * 0.5}em)`,
         gridTemplateRows: `repeat(${rows * 2}, ${cellHeight / 2 + gapSize}em)`,
     };
 

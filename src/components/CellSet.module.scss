@@ -1,0 +1,23 @@
+@use 'CellSpacing';
+
+.root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0.5rem;
+    user-select: none;
+}
+
+.cells {
+    display: grid;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    grid-gap: CellSpacing.$gapSize (2 * CellSpacing.$gapSize);
+}
+
+.cellWrapper {
+    position: relative;
+}

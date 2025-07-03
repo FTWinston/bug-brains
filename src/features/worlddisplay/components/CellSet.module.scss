@@ -1,10 +1,8 @@
 @use 'CellSpacing';
+@use 'src/utils/layout';
 
 .root {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+    @include layout.flexCenter;
     overflow: hidden;
     padding: 0.5rem;
     user-select: none;

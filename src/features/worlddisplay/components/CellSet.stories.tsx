@@ -117,7 +117,8 @@ export const Simple: Story = {
                 { id: 1, type: EntityType.Ant, color: 'red' }
             ],
             75: [
-                { id: 3, type: EntityType.Food, quantity: 5 }
+                { id: 3, type: EntityType.Food, quantity: 8 },
+                { id: 1, type: EntityType.Ant, color: 'red' }
             ],
         },
     }

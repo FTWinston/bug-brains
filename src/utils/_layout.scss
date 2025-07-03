@@ -1,0 +1,14 @@
+@mixin flexCenter($wrap: nowrap) {
+    display: flex;
+    
+    @if $wrap == wrap or $wrap == 'wrap-reverse' {
+        place-items: center;
+        place-content: center;
+    } @else {
+        align-items: center;
+        justify-content: center;
+    }
+
+    flex-wrap: $wrap;
+    position: relative;
+}

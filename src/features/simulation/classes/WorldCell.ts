@@ -1,4 +1,4 @@
-import { CellType } from '../types/CellType';
+import { CellType } from 'src/types/CellType';
 import type { IWorldCell } from '../types/IWorldCell';
 import type { Entity } from './Entity';
 

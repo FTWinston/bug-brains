@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Cell } from './Cell';
-import { CellType } from 'src/features/simulation/types/CellType';
+import { CellType } from 'src/types/CellType';
 
 const meta = {
     title: 'Cell',

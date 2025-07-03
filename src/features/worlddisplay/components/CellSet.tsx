@@ -1,9 +1,11 @@
+import type { CellType } from 'src/types/CellType';
 import { Cell, type CellData } from './Cell';
 import styles from './CellSet.module.scss';
 
 interface Props {
     columns: number;
-    cells: CellData[];
+    cells: CellType[];
+    entities: Record<number, CellData['contents']>;
     onClick?: (index: number) => void;
 }
 
@@ -15,8 +17,8 @@ export const CellSet: React.FC<Props> = props => {
     const { columns, cells, onClick } = props;
     const rows = Math.ceil(cells.length / columns);
 
-    const contents = cells.map((cell, index) => {
-        if (cell === null) {
+    const contents = cells.map((cellType, index) => {
+        if (cellType === null) {
             return null;
         }
         
@@ -32,17 +34,17 @@ export const CellSet: React.FC<Props> = props => {
             gridColumn: `${col} / span 3`,
             gridRow: `${row} / span 2`,
         };
+
+        const cellContents  = props.entities[index];
         
         return (
                 <Cell
                     key={index}
                     style={wrapperStyle}
-                    cellType={cell.cellType}
-                    antColor={cell.antColor}
+                    cellType={cellType}
+                    contents={cellContents}
                     onClick={onClick ? () => onClick(index) : undefined}
-                >
-                    {index+1}
-                </Cell>
+                />
         )
     });
     

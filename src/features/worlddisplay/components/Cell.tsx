@@ -1,11 +1,12 @@
-import type { PropsWithChildren } from 'react';
-import { CellType } from 'src/features/simulation/types/CellType';
 import styles from './Cell.module.scss';
+import { Entity } from './Entity';
+import { CellType } from 'src/types/CellType';
+import type { EntityInfo } from 'src/types/EntityInfo';
 import { classNames } from 'src/utils/classNames';
 
 export interface CellData {
     cellType: CellType;
-    antColor?: string;
+    contents?: EntityInfo[],
 }
 
 interface Props extends CellData{
@@ -13,7 +14,7 @@ interface Props extends CellData{
     onClick?: () => void;
 }
 
-export const Cell: React.FC<PropsWithChildren<Props>> = props => {
+export const Cell: React.FC<Props> = props => {
     let cellTypeStyle: string | undefined;
     switch (props.cellType) {
         case CellType.UndergroundSpace:
@@ -27,23 +28,20 @@ export const Cell: React.FC<PropsWithChildren<Props>> = props => {
             break;
     }
 
-    let antTypeStyle: string | undefined;
-    switch (props.antColor) {
-        case 'red':
-            antTypeStyle = styles.antRed;
-            break;
-        case 'blue':
-            antTypeStyle = styles.antBlue;
-            break;
-    }
+    let contents = props.contents?.map((entity) => (
+        <Entity
+            key={entity.id}
+            {...entity}
+        />
+    ));
 
     return (
         <div
-            className={classNames(styles.cell, cellTypeStyle, antTypeStyle)}
+            className={classNames(styles.cell, cellTypeStyle)}
             onClick={props.onClick}
             style={props.style}
         >
-            {props.antColor && '✱'}
+            {contents}
         </div>
     );
 }

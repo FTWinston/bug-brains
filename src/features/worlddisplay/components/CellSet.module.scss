@@ -13,7 +13,6 @@
 
 .cells {
     display: grid;
-    list-style-type: none;
     margin: 0;
     padding: 0;
     grid-gap: CellSpacing.$gapSize (2 * CellSpacing.$gapSize);

@@ -1,5 +1,5 @@
 import { Behavior } from '../../types/Behavior';
-import { CellType } from '../../types/CellType';
+import { CellType } from '../../../../types/CellType';
 import type { Condition } from '../../types/Condition';
 import type { Ant } from '../Ant';
 

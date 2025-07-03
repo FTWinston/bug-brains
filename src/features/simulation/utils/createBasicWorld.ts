@@ -1,6 +1,6 @@
 import { World } from '../classes/World';
 import { WorldCell } from '../classes/WorldCell';
-import { CellType } from '../types/CellType';
+import { CellType } from 'src/types/CellType';
 import { indexFromCoordinate } from 'src/utils/coordinates';
 
 export function createBasicWorld() {

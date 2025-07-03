@@ -6,8 +6,10 @@
     height: CellSpacing.$cellHeight;
     background-color: grey;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    align-content: center;;
     position: relative;
 }
 
@@ -21,12 +23,4 @@
 
 .cellOutdoorSpace {
     background-color: #fff;
-}
-
-.antRed {
-    color: red;
-}
-
-.antBlue {
-    color: blue;
 }

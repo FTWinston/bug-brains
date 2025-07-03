@@ -1,4 +1,4 @@
-import type { CellType } from './CellType';
+import type { CellType } from 'src/types/CellType';
 import type { IEntity } from './IEntity';
 
 export interface IWorldCell {

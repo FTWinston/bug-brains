@@ -30,21 +30,17 @@ export const CellSet: React.FC<Props> = props => {
         }
         col = col * 2 + 1;
 
-        const wrapperStyle: React.CSSProperties = {
-            gridColumn: `${col} / span 3`,
-            gridRow: `${row} / span 2`,
-        };
-
-        const cellContents  = props.entities[index];
+        const cellContents = props.entities[index];
         
         return (
-                <Cell
-                    key={index}
-                    style={wrapperStyle}
-                    cellType={cellType}
-                    contents={cellContents}
-                    onClick={onClick ? () => onClick(index) : undefined}
-                />
+            <Cell
+                key={index}
+                cellType={cellType}
+                contents={cellContents}
+                onClick={onClick?.bind(null, index)}
+                gridColumn={col}
+                gridRow={row}
+            />
         )
     });
     

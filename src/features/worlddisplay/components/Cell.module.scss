@@ -6,6 +6,8 @@
     clip-path: polygon(75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0);
     width: CellSpacing.$cellWidth;
     height: CellSpacing.$cellHeight;
+    grid-row-end: span 2;
+    grid-column-end: span 3;
     background-color: grey;
 }
 

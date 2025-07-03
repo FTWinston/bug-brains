@@ -114,12 +114,15 @@ export const Simple: Story = {
             60: [
                 { id: 2, type: EntityType.Ant, color: 'blue' },
                 { id: 3, type: EntityType.Food, quantity: 2 },
-                { id: 1, type: EntityType.Ant, color: 'red' }
+                { id: 4, type: EntityType.Ant, color: 'red' }
             ],
             75: [
-                { id: 3, type: EntityType.Food, quantity: 8 },
-                { id: 1, type: EntityType.Ant, color: 'red' }
+                { id: 5, type: EntityType.Food, quantity: 8 },
+                { id: 6, type: EntityType.Ant, color: 'red' }
             ],
         },
+        onClick: (index: number) => {
+            console.log(`Cell ${index} clicked`);
+        }
     }
 }

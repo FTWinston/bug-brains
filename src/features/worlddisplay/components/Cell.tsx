@@ -10,7 +10,8 @@ export interface CellData {
 }
 
 interface Props extends CellData{
-    style?: React.CSSProperties;
+    gridColumn?: number;
+    gridRow?: number;
     onClick?: () => void;
 }
 
@@ -28,7 +29,14 @@ export const Cell: React.FC<Props> = props => {
             break;
     }
 
-    let contents = props.contents?.map((entity) => (
+    const style: React.CSSProperties | undefined = props.gridColumn !== undefined || props.gridRow !== undefined
+        ? {
+            gridColumnStart: props.gridColumn,
+            gridRowStart: props.gridRow,
+        }
+        : undefined;
+
+    const contents = props.contents?.map((entity) => (
         <Entity
             key={entity.id}
             {...entity}
@@ -39,7 +47,7 @@ export const Cell: React.FC<Props> = props => {
         <div
             className={classNames(styles.cell, cellTypeStyle)}
             onClick={props.onClick}
-            style={props.style}
+            style={style}
         >
             {contents}
         </div>

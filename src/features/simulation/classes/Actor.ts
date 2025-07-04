@@ -1,25 +1,25 @@
 import type { IActor } from '../types/IActor';
-import type { Action } from '../types/Action';
-import type { BehaviorList } from '../types/BehaviorList';
+import type { IAction } from '../types/IAction';
+import type { IBehaviorList } from '../types/IBehaviorList';
 import { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
 
 export abstract class ActorBase extends Entity implements IActor {
-    constructor(location: WorldCell) {
-        super(location);
+    constructor(id: number, location: WorldCell) {
+        super(id, location);
     }
 
     abstract act(): void;
 }
 
 export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
-    constructor(location: WorldCell, behaviors: BehaviorList<TActor>) {
-        super(location)
+    constructor(id: number, location: WorldCell, behaviors: IBehaviorList<TActor>) {
+        super(id, location)
         this.behaviors = behaviors;
     }
 
-    behaviors: BehaviorList<TActor>;
-    currentAction?: Action<TActor>;
+    behaviors: IBehaviorList<TActor>;
+    currentAction?: IAction<TActor>;
     
     act() {
         for (const behavior of this.behaviors.behaviors) {

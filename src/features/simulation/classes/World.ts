@@ -1,10 +1,11 @@
-import type { IWorld } from '../types/IWorld';
+import type { IWorld } from 'src/types/IWorld';
 import { ActorBase } from './Actor';
 import type { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
+import type { SimulationAction } from 'src/types/SimulationAction';
 
 /** A world is a collection of cells, along with the entities in those cells. */
-export class World implements IWorld {
+export class World {
     constructor(readonly rows: number, readonly columns: number, cells: Iterable<WorldCell>) {
         this.allCells = new Set<WorldCell>(cells);
 
@@ -16,7 +17,7 @@ export class World implements IWorld {
     }
 
     private allCells: Set<WorldCell>;
-    private allEntities: Set<Entity> = new Set<Entity>();
+    private allEntities: Map<number, Entity> = new Map<number, Entity>();
     private allActors: Set<ActorBase> = new Set<ActorBase>();
 
     public get cells(): ReadonlySet<WorldCell> {
@@ -24,7 +25,7 @@ export class World implements IWorld {
     }
 
     public addEntity(entity: Entity) {
-        this.allEntities.add(entity);
+        this.allEntities.set(entity.id, entity);
         if (entity instanceof ActorBase) {
             this.allActors.add(entity);
         }
@@ -32,13 +33,32 @@ export class World implements IWorld {
 
     public removeEntity(entity: Entity) {
         this.allActors.delete(entity);
-        this.allEntities.delete(entity);
+        this.allEntities.delete(entity.id);
         entity.location.removeEntity(entity);
     }
 
-    public actAllEntities() {
+    public actAllEntities(): SimulationAction[] {
         for (const actor of this.allActors) {
             actor.act();
+        }
+
+        // TODO: get actual actions from actors to return.
+        return [];
+    }
+
+    public getDisplayState(): IWorld {
+        return {
+            columns: this.columns,
+            cells: Array.from(this.allCells)
+                .map(cell => cell.type),
+            entities: {},
+            
+            /*
+            // TODO: how to pass entities?
+            // (Directly related to: how to store entities on the client?)
+            Array.from(this.allEntities)
+                .map(entity => entity)
+            */
         }
     }
 }

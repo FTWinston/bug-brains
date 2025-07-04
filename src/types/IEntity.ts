@@ -1,11 +1,11 @@
 import type { EntityType } from './EntityType';
 
-export type EntityInfoCommon = {
+export type IEntityCommon = {
     id: number;
     type: EntityType;
 }
 
-export type EntityInfo = EntityInfoCommon & ({
+export type IEntitySpecific = {
     type: EntityType.Ant;
     color?: 'red' | 'blue';
 } | {
@@ -13,4 +13,6 @@ export type EntityInfo = EntityInfoCommon & ({
     quantity: number;
 } | {
     type: EntityType.Rock;
-})
+}
+
+export type IEntity = IEntityCommon & IEntitySpecific;

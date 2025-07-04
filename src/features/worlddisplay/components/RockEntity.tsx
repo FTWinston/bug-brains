@@ -1,9 +1,9 @@
-import type { EntityInfo } from 'src/types/EntityInfo';
+import type { IEntity } from 'src/types/IEntity';
 import { EntityType } from 'src/types/EntityType';
 import styles from './RockEntity.module.scss';
 import { classNames } from 'src/utils/classNames';
 
-type Props = Omit<Extract<EntityInfo, { type: EntityType.Rock }>, 'type'> & {
+type Props = Omit<Extract<IEntity, { type: EntityType.Rock }>, 'type'> & {
     className?: string;
 };
 

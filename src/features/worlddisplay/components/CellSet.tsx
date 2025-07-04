@@ -1,11 +1,8 @@
-import type { CellType } from 'src/types/CellType';
-import { Cell, type CellData } from './Cell';
+import type { IWorld } from 'src/types/IWorld';
+import { Cell } from './Cell';
 import styles from './CellSet.module.scss';
 
-interface Props {
-    columns: number;
-    cells: CellType[];
-    entities: Record<number, CellData['contents']>;
+type Props = IWorld & {
     onClick?: (index: number) => void;
 }
 

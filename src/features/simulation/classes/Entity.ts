@@ -2,11 +2,13 @@ import type { IEntity } from '../types/IEntity';
 import type { WorldCell } from './WorldCell';
 
 export abstract class Entity implements IEntity {
-    constructor(location: WorldCell) {
+    constructor(id: number, location: WorldCell) {
+        this.id = id;
         this.cell = location;
     }
 
     public cell: WorldCell;
+    public readonly id: number;
     public readonly size: number = 1; // Default size of an entity, can be overridden by subclasses.
 
     public get location() {

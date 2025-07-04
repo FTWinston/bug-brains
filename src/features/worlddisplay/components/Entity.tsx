@@ -1,11 +1,11 @@
-import type { EntityInfo } from 'src/types/EntityInfo';
+import type { IEntity } from 'src/types/IEntity';
 import { EntityType } from 'src/types/EntityType';
 import { AntEntity } from './AntEntity';
 import { FoodEntity } from './FoodEntity';
 import { RockEntity } from './RockEntity';
 import styles from './Entity.module.scss';
 
-type Props = EntityInfo;
+type Props = IEntity;
 
 export const Entity: React.FC<Props> = props => {
     switch (props.type) {

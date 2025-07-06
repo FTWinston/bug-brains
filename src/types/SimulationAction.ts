@@ -1,40 +1,39 @@
 import type { CellType } from './CellType';
-import type { IEntity, IEntitySpecific } from './IEntity';
-import type { IWorld } from './IWorld';
+import type { IEntityState, IEntitySpecific } from './IEntityState';
 
-type InitAction = {
-    type: 'init';
-    world: IWorld;
+type ResetAction = {
+    type: 'reset';
+    columns: number;
+    cells: CellType[];
 }
 
-type UpdateAction = {
-    type: 'update';
-    events: UpdateEvent[]
-}
-
-type CellEvent = {
+type CellAction = {
     type: 'cell';
     i: number;
     cellType: CellType;
 }
 
-type AddEntityEvent = {
+type AddEntityAction = {
     type: 'add';
     loc: number;
-    entity: IEntity;
+    entity: IEntityState;
 }
 
-type RemoveEntityEvent = {
+type RemoveEntityAction = {
     type: 'rem';
     id: number;
 }
 
-type UpdateEntityEvent = {
+type MoveEntityAction = {
+    type: 'mov';
+    id: number;
+    loc: number;
+}
+
+type UpdateEntityAction = {
     type: 'upd';
     id: number;
     ent: Partial<IEntitySpecific>;
 }
 
-export type UpdateEvent = CellEvent | AddEntityEvent | RemoveEntityEvent | UpdateEntityEvent;
-
-export type SimulationAction = InitAction | UpdateAction;
+export type SimulationAction = ResetAction | CellAction | AddEntityAction | RemoveEntityAction | MoveEntityAction | UpdateEntityAction;

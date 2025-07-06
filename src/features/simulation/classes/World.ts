@@ -1,4 +1,4 @@
-import type { IWorld } from 'src/types/IWorld';
+import type { IWorldState } from 'src/types/IWorldState';
 import { ActorBase } from './Actor';
 import type { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
@@ -37,17 +37,8 @@ export class World {
         entity.location.removeEntity(entity);
     }
 
-    public actAllEntities(): SimulationAction[] {
-        for (const actor of this.allActors) {
-            actor.act();
-        }
-
-        // TODO: get actual actions from actors to return.
-        return [];
-    }
-
-    public getDisplayState(): IWorld {
-        return {
+    public getCurrentStateActions(): SimulationAction[] {
+        const worldState: IWorldState = {
             columns: this.columns,
             cells: Array.from(this.allCells)
                 .map(cell => cell.type),
@@ -59,6 +50,20 @@ export class World {
             Array.from(this.allEntities)
                 .map(entity => entity)
             */
+        };
+
+        return [
+            { type: 'init', world: worldState },
+            // TODO: get action to create every entity that is present.
+        ]
+    }
+
+    public actAllEntitiesAndGetUpdateActions(): SimulationAction[] {
+        for (const actor of this.allActors) {
+            actor.act();
         }
+
+        // TODO: get actual actions from actors to return.
+        return [];
     }
 }

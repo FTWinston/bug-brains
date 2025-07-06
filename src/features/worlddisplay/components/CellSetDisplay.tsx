@@ -1,8 +1,8 @@
-import type { IWorld } from 'src/types/IWorld';
+import type { IWorldState } from 'src/types/IWorldState';
 import { Cell } from './CellDisplay';
 import styles from './CellSetDisplay.module.scss';
 
-type Props = IWorld & {
+type Props = IWorldState & {
     onClick?: (index: number) => void;
 }
 
@@ -14,11 +14,7 @@ export const CellSet: React.FC<Props> = props => {
     const { columns, cells, onClick } = props;
     const rows = Math.ceil(cells.length / columns);
 
-    const contents = cells.map((cellType, index) => {
-        if (cellType === null) {
-            return null;
-        }
-        
+    const contents = cells.map((cell, index) => {
         let row = Math.floor(index / columns) * 2 + 1;
         let col = (index % columns);
 
@@ -27,13 +23,11 @@ export const CellSet: React.FC<Props> = props => {
         }
         col = col * 2 + 1;
 
-        const cellContents = props.entities[index];
-        
         return (
             <Cell
                 key={index}
-                cellType={cellType}
-                contents={cellContents}
+                cellType={cell.type}
+                contents={cell.contents}
                 onClick={onClick?.bind(null, index)}
                 gridColumn={col}
                 gridRow={row}

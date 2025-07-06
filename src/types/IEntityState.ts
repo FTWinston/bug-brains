@@ -15,4 +15,4 @@ export type IEntitySpecific = {
     type: EntityType.Rock;
 }
 
-export type IEntity = IEntityCommon & IEntitySpecific;
+export type IEntityState = IEntityCommon & IEntitySpecific;

@@ -1,12 +1,12 @@
 import { Entity } from './EntityDisplay';
 import { CellType } from 'src/types/CellType';
-import type { IEntity } from 'src/types/IEntity';
+import type { IEntityState } from 'src/types/IEntityState';
 import { classNames } from 'src/utils/classNames';
 import styles from './CellDisplay.module.scss';
 
 export interface CellData {
     cellType: CellType;
-    contents?: IEntity[],
+    contents?: IEntityState[],
 }
 
 interface Props extends CellData{

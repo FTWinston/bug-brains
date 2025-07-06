@@ -1,10 +1,6 @@
-import type { IEntity } from 'src/types/IEntity';
-import type { IWorld } from 'src/types/IWorld';
+import type { IWorldState } from 'src/types/IWorldState';
 
-export type DisplayState = IWorld & {
-    /** Entity object by ID */
-    entityMap: Map<number, IEntity>;
-
+export type DisplayState = IWorldState & {
     /** Entity cell index by ID */
-    entityCells: Map<number, number>;
+    entityCells: Record<number, number>;
 }

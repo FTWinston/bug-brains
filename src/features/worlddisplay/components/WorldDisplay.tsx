@@ -1,4 +1,4 @@
-import { CellSet } from './CellSet'
+import { CellSet } from './CellSetDisplay'
 import { useSimulationWorker } from '../hooks/useSimulationWorker';
 import type { IWorld } from 'src/types/IWorld';
 

@@ -1,6 +1,6 @@
 import type { IWorld } from 'src/types/IWorld';
-import { Cell } from './Cell';
-import styles from './CellSet.module.scss';
+import { Cell } from './CellDisplay';
+import styles from './CellSetDisplay.module.scss';
 
 type Props = IWorld & {
     onClick?: (index: number) => void;

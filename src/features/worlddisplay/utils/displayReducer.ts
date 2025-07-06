@@ -2,9 +2,13 @@ import type { SimulationAction } from 'src/types/SimulationAction';
 import type { DisplayState } from '../types/DisplayState';
 import type { IEntity } from 'src/types/IEntity';
 
+function assertNever(x: never, desc: string): never {
+    throw new Error(`Unhandled ${desc} type: ${(x as SimulationAction).type}`);
+}
+
 export function displayReducer(state: DisplayState, action: SimulationAction): DisplayState {
     switch (action.type) {
-        case 'init':
+        case 'init': {
             state = {
                 cells: action.world.cells,
                 columns: action.world.columns,
@@ -26,8 +30,9 @@ export function displayReducer(state: DisplayState, action: SimulationAction): D
             }
 
             return state;
+        }
 
-        case 'update':
+        case 'update': {
             let recreatedCells = false;
 
             for (const event of action.events) {
@@ -73,13 +78,14 @@ export function displayReducer(state: DisplayState, action: SimulationAction): D
                         // TODO: update what we save.
                         break;
                     default:
-                        throw new Error(`Unknown event type: ${(event as any).type}`);
+                        assertNever(event, 'update event');
                 }
             }
 
             return state;
+        }
             
         default:
-            return state;
+            assertNever(action, 'action');
     }
 }

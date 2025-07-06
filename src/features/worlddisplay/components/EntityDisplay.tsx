@@ -1,9 +1,9 @@
 import type { IEntity } from 'src/types/IEntity';
 import { EntityType } from 'src/types/EntityType';
-import { AntEntity } from './AntEntity';
-import { FoodEntity } from './FoodEntity';
-import { RockEntity } from './RockEntity';
-import styles from './Entity.module.scss';
+import { AntEntity } from './AntEntityDisplay';
+import { FoodEntity } from './FoodEntityDisplay';
+import { RockEntity } from './RockEntityDisplay';
+import styles from './EntityDisplay.module.scss';
 
 type Props = IEntity;
 

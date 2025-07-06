@@ -3,11 +3,18 @@ import type { DisplayState } from '../types/DisplayState';
 import type { IWorld } from 'src/types/IWorld';
 import { displayReducer } from '../utils/displayReducer';
 import type { SimulationAction } from 'src/types/SimulationAction';
+import type { IEntity } from 'src/types/IEntity';
 
-const initialState = {} as DisplayState;
+const getEmptyState: () => DisplayState = () => ({
+    columns: 0,
+    cells: [],
+    entities: {},
+    entityMap: new Map<number, IEntity>(),
+    entityCells: new Map<number, number>(),
+});
 
 export function useSimulationWorker(worldIdentifier: string): IWorld {
-    const [state, update] = useReducer(displayReducer, undefined, () => initialState)
+    const [state, update] = useReducer(displayReducer, undefined, getEmptyState)
     
     useEffect(() => {
         // Create a new Web Worker for the simulation.
@@ -25,7 +32,7 @@ export function useSimulationWorker(worldIdentifier: string): IWorld {
             worker.removeEventListener('message', handleMessage);
             worker.terminate();
         };
-    }, []);
+    }, [worldIdentifier]);
 
     return state;
 }

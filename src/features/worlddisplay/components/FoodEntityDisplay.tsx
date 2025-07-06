@@ -1,7 +1,7 @@
 import type { IEntity } from 'src/types/IEntity';
 import { EntityType } from 'src/types/EntityType';
-import styles from './FoodEntity.module.scss';
 import { classNames } from 'src/utils/classNames';
+import styles from './FoodEntityDisplay.module.scss';
 
 type Props = Omit<Extract<IEntity, { type: EntityType.Food }>, 'type'> & {
     className?: string;

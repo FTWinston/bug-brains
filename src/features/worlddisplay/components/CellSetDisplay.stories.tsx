@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CellType } from 'src/types/CellType';
-import { CellSet } from './CellSet';
+import { CellSet } from './CellSetDisplay';
 import { EntityType } from 'src/types/EntityType';
 
 const meta = {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Cell } from './Cell';
+import { Cell } from './CellDisplay';
 import { CellType } from 'src/types/CellType';
 
 const meta = {

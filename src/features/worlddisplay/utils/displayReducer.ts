@@ -1,10 +1,10 @@
-import type { SimulationAction } from 'src/types/SimulationAction';
+import type { SimulationUpdate } from 'src/types/SimulationUpdate';
 import type { DisplayState } from '../types/DisplayState';
 import type { IEntityState } from 'src/types/IEntityState';
 import type { ICellState } from 'src/types/ICellState';
 
 function assertNever(x: never): never {
-    throw new Error(`Unhandled action type: ${(x as SimulationAction).type}`);
+    throw new Error(`Unhandled action type: ${(x as SimulationUpdate).type}`);
 }
 
 function addToCellContents(state: DisplayState, cellIndex: number, entity: IEntityState) {
@@ -61,8 +61,8 @@ function updateInCellContents(state: DisplayState, cellIndex: number, entityId: 
     return existingEntity;
 }
 
-export function displayReducer(state: DisplayState, actions: SimulationAction[]): DisplayState {
-    // On the assumption that any action will modify a cell, recreate the state and cells array now,
+export function displayReducer(state: DisplayState, updates: SimulationUpdate[]): DisplayState {
+    // On the assumption that any update will modify at least one cell, recreate the state and cells array now,
     // to avoid redoing it for each action. (This is superfluous for the reset action.)
     state = {
         ...state,
@@ -71,16 +71,16 @@ export function displayReducer(state: DisplayState, actions: SimulationAction[])
 
     let changedEntityCells = false;
 
-    for (const action of actions) {
-        switch (action.type) {
+    for (const update of updates) {
+        switch (update.type) {
             // Reset the map of cells, and clear all entities.
             case 'reset': {
                 state = {
-                    cells: action.cells
+                    cells: update.cells
                         .map(cellType => ({
                             type: cellType
                         })),
-                    columns: action.columns,
+                    columns: update.columns,
                     entityCells: {},
                 };
                 break;
@@ -88,11 +88,11 @@ export function displayReducer(state: DisplayState, actions: SimulationAction[])
 
             // Change the type of a cell.
             case 'cell': {
-                const existingCell = state.cells[action.i];
+                const existingCell = state.cells[update.i];
 
-                state.cells[action.i] = {
+                state.cells[update.i] = {
                     ...existingCell,
-                    type: action.cellType,
+                    type: update.cellType,
                 };
                 break;
             }
@@ -104,14 +104,14 @@ export function displayReducer(state: DisplayState, actions: SimulationAction[])
                     state.entityCells = {...state.entityCells};
                 }
 
-                state.entityCells[action.entity.id] = action.loc;
-                addToCellContents(state, action.loc, action.entity);
+                state.entityCells[update.entity.id] = update.loc;
+                addToCellContents(state, update.loc, update.entity);
                 break;
             }
 
             case 'rem': {
                 // Remove the entity from entityCells, and also from it's current cell's content.
-                const cellIndex = state.entityCells[action.id];
+                const cellIndex = state.entityCells[update.id];
 
                 if (cellIndex === undefined) {
                     break;
@@ -122,14 +122,14 @@ export function displayReducer(state: DisplayState, actions: SimulationAction[])
                     state.entityCells = {...state.entityCells};
                 }
 
-                delete state.entityCells[action.id];
-                removeFromCellContents(state, cellIndex, action.id);
+                delete state.entityCells[update.id];
+                removeFromCellContents(state, cellIndex, update.id);
                 break;
             }
             
             case 'mov': {
                 // Overwrite the entity in entityCells, remove it from its existing cell's content, and add it to the specified cell's content.
-                const cellIndex = state.entityCells[action.id];
+                const cellIndex = state.entityCells[update.id];
 
                 if (cellIndex === undefined) {
                     break;
@@ -140,28 +140,28 @@ export function displayReducer(state: DisplayState, actions: SimulationAction[])
                     state.entityCells = {...state.entityCells};
                 }
 
-                state.entityCells[action.id] = action.loc;
-                const entity = removeFromCellContents(state, cellIndex, action.id);
+                state.entityCells[update.id] = update.loc;
+                const entity = removeFromCellContents(state, cellIndex, update.id);
                 if (entity) {
-                    addToCellContents(state, action.loc, entity);
+                    addToCellContents(state, update.loc, entity);
                 }
                 break;
             }
 
             case 'upd': {
                 // Ovewrite any properties of the specified entity, except for its id, type and the cell it's in.
-                const cellIndex = state.entityCells[action.id];
+                const cellIndex = state.entityCells[update.id];
 
                 if (cellIndex === undefined) {
                     break;
                 }
 
-                updateInCellContents(state, cellIndex, action.id, action.ent);
+                updateInCellContents(state, cellIndex, update.id, update.ent);
                 break;
             }
                 
             default:
-                assertNever(action);
+                assertNever(update);
         }
     }
 

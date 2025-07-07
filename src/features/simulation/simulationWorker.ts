@@ -26,12 +26,12 @@ self.addEventListener('message', (event: MessageEvent<WorldDisplayAction>) => {
 
 function simulateWorld(world: World) {
     // Send initial world state to the main thread.
-    postMessage(world.getCurrentStateActions());
+    postMessage(world.getFullStateAsUpdates());
 
     // Simulation loop, triggers every 100ms.
     const interval = setInterval(() => {
         // Perform actions for all entities in the world, get the events that occur as a result.
-        const events = world.actAllEntitiesAndGetUpdateActions();
+        const events = world.actAllEntitiesAndGetUpdates();
 
         if (events.length > 0) {
             // Send those events in an update message to the main thread.

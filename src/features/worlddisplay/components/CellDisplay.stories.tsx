@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Cell } from './CellDisplay';
 import { CellType } from 'src/types/CellType';
 

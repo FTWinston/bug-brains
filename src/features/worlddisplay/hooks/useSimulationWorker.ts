@@ -2,7 +2,7 @@ import { useEffect, useReducer } from 'react';
 import type { DisplayState } from '../types/DisplayState';
 import type { IWorldState } from 'src/types/IWorldState';
 import { displayReducer } from '../utils/displayReducer';
-import type { SimulationAction } from 'src/types/SimulationAction';
+import type { SimulationUpdate } from 'src/types/SimulationUpdate';
 
 const createEmptyState: () => DisplayState = () => ({
     columns: 0,
@@ -18,7 +18,7 @@ export function useSimulationWorker(worldIdentifier: string): IWorldState {
         const worker = new Worker(new URL('../../features/simulation/simulationWorker', import.meta.url));
 
         // Pass messages from the worker straight to the reducer.
-        const handleMessage = (event: MessageEvent<SimulationAction[]>) => update(event.data);
+        const handleMessage = (event: MessageEvent<SimulationUpdate[]>) => update(event.data);
         worker.addEventListener('message', handleMessage);
         
         // Send a message to the worker, telling it which world to initialize.

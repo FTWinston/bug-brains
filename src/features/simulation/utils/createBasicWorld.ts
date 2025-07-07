@@ -11,7 +11,8 @@ export function createBasicWorld() {
     
     for (let col = 0; col < columns; col++) {
         for (let row = 0; row < rows; row++) {
-            cells[indexFromCoordinate({ col, row }, columns)] = new WorldCell(row, col, CellType.UndergroundSpace);
+            const index = indexFromCoordinate({ col, row }, columns);
+            cells[index] = new WorldCell(index, row, col, CellType.UndergroundSpace);
         }
     }
 

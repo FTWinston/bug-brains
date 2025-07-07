@@ -1,8 +1,7 @@
-import type { IWorldState } from 'src/types/IWorldState';
 import { ActorBase } from './Actor';
 import type { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
-import type { SimulationAction } from 'src/types/SimulationAction';
+import type { SimulationUpdate } from 'src/types/SimulationUpdate';
 
 /** A world is a collection of cells, along with the entities in those cells. */
 export class World {
@@ -32,38 +31,43 @@ export class World {
     }
 
     public removeEntity(entity: Entity) {
-        this.allActors.delete(entity);
+        this.allActors.delete(entity as ActorBase);
         this.allEntities.delete(entity.id);
         entity.location.removeEntity(entity);
     }
 
-    public getCurrentStateActions(): SimulationAction[] {
-        const worldState: IWorldState = {
+    public getFullStateAsUpdates(): SimulationUpdate[] {
+        const resetAction: SimulationUpdate = {
+            type: 'reset',
             columns: this.columns,
             cells: Array.from(this.allCells)
                 .map(cell => cell.type),
-            entities: {},
-            
-            /*
-            // TODO: how to pass entities?
-            // (Directly related to: how to store entities on the client?)
-            Array.from(this.allEntities)
-                .map(entity => entity)
-            */
-        };
-
-        return [
-            { type: 'init', world: worldState },
-            // TODO: get action to create every entity that is present.
-        ]
-    }
-
-    public actAllEntitiesAndGetUpdateActions(): SimulationAction[] {
-        for (const actor of this.allActors) {
-            actor.act();
         }
 
-        // TODO: get actual actions from actors to return.
-        return [];
+        const actions = [...this.allEntities.values()]
+            .map(entity => ({
+                type: 'add',
+                loc: entity.location.index,
+                entity: {
+                    id: entity.id,
+                    type: entity.type,
+                    ...entity.getStateForUpdate(),
+                }
+            })) as unknown as SimulationUpdate[];
+
+        // Put the reset action at the start, as that clears all entities from the world.
+        actions.unshift(resetAction);
+
+        return actions;;
+    }
+
+    public actAllEntitiesAndGetUpdates(): SimulationUpdate[] {
+        const actions: SimulationUpdate[] = [];
+
+        for (const actor of this.allActors) {
+            actions.push(...actor.act());
+        }
+
+        return actions;
     }
 }

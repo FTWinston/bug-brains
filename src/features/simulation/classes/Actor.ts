@@ -3,13 +3,14 @@ import type { IAction } from '../types/IAction';
 import type { IBehaviorList } from '../types/IBehaviorList';
 import { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
+import type { SimulationUpdate } from 'src/types/SimulationUpdate';
 
 export abstract class ActorBase extends Entity implements IActor {
     constructor(id: number, location: WorldCell) {
         super(id, location);
     }
 
-    abstract act(): void;
+    abstract act(): SimulationUpdate[];
 }
 
 export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
@@ -21,7 +22,7 @@ export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
     behaviors: IBehaviorList<TActor>;
     currentAction?: IAction<TActor>;
     
-    act() {
+    act(): SimulationUpdate[] {
         for (const behavior of this.behaviors.behaviors) {
             if (behavior.conditions.some(condition => !condition.isSatisfied(this as unknown as TActor))) {
                 continue; // Skip this behavior if any condition is not satisfied.
@@ -39,5 +40,7 @@ export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
                 this.currentAction = this.currentAction.nextAction ?? behavior.actions[0];
             }
         }
+
+        return []; // TODO: return simulation updates here
     }
 }

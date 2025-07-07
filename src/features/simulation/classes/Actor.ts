@@ -34,13 +34,17 @@ export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
                 this.currentAction = behavior.actions[0];
             }
 
-            // Perform the action.
-            if (this.currentAction.performStep(this as unknown as TActor)) {
+            // Perform the action. This returns whether it has completed, and an array of simulation updates that occurred.
+            const [actionIsComplete, updates] = this.currentAction.performStep(this as unknown as TActor);
+
+            if (actionIsComplete) {
                 // If it is complete, move on to the next action, or the first action if this was the last.
                 this.currentAction = this.currentAction.nextAction ?? behavior.actions[0];
             }
+
+            return updates;
         }
 
-        return []; // TODO: return simulation updates here
+        return [];
     }
 }

@@ -118,7 +118,7 @@ export function getIndexesInRadius(index: number, columns: number, rows: number)
         .map(coord => indexFromCoordinate(coord, columns));
 }
 
-function step(coord: Coordinate, direction: Direction): Coordinate {
+export function step(coord: Coordinate, direction: Direction): Coordinate {
     switch (direction) {
         case Direction.Downward:
             return {
@@ -159,23 +159,4 @@ function step(coord: Coordinate, direction: Direction): Coordinate {
                 col: coord.col - 1,
             };
     }
-}
-
-export function getIndexesInRow(fromIndex: number, direction: Direction, columns: number, rows: number): number[] {
-    let coord = coordinateFromIndex(fromIndex, columns);
-
-    const results: number[] = [];
-
-    while (true) {
-        coord = step(coord, direction);
-
-        if (coord.col >= 0 && coord.col < columns && coord.row >= 0 && coord.row < rows) {
-            results.push(indexFromCoordinate(coord, columns));
-        }
-        else {
-            break;
-        }
-    }
-
-    return results;
 }

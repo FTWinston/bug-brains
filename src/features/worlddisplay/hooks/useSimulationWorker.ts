@@ -15,14 +15,14 @@ export function useSimulationWorker(worldIdentifier: string): IWorldState {
     
     useEffect(() => {
         // Create a new Web Worker for the simulation.
-        const worker = new Worker(new URL('../../features/simulation/simulationWorker', import.meta.url));
+        const worker = new Worker(new URL('../../simulation/simulationWorker', import.meta.url), { type: 'module' });
 
         // Pass messages from the worker straight to the reducer.
         const handleMessage = (event: MessageEvent<SimulationUpdate[]>) => update(event.data);
         worker.addEventListener('message', handleMessage);
         
         // Send a message to the worker, telling it which world to initialize.
-        worker.postMessage({ type: 'init', worldIdentifier },);
+        worker.postMessage({ type: 'init', id: worldIdentifier });
         
         // Remove the event listener and terminate the worker when this component unmounts.
         return () => {

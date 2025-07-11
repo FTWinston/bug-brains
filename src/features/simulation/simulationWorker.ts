@@ -1,6 +1,6 @@
 import type { WorldDisplayAction } from 'src/types/WorldDisplayAction';
 import type { World } from './classes/World';
-import { createBasicWorld } from './utils/createBasicWorld';
+import { createBasicWorld } from './utils/scenarios/createBasicWorld';
 
 let world: World | undefined;
 
@@ -13,7 +13,8 @@ self.addEventListener('message', (event: MessageEvent<WorldDisplayAction>) => {
             throw new Error('World has already been initialized.');
         }
 
-        if (event.data.id === 'default') {
+        console.log(`Initializing world:`, event.data.id);
+        if (event.data.id === 'simpleWorld') {
             world = createBasicWorld();
         }
         else {
@@ -37,7 +38,7 @@ function simulateWorld(world: World) {
             // Send those events in an update message to the main thread.
             postMessage(events);
         }
-    }, 100);
+    }, 1000);
 
     // Stop interval when this worker is terminated.
     self.addEventListener('close', () => clearInterval(interval));

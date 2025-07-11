@@ -4,6 +4,7 @@ import type { IBehaviorList } from '../types/IBehaviorList';
 import { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
 import type { SimulationUpdate } from 'src/types/SimulationUpdate';
+import type { IBehavior } from '../types/IBehavior';
 
 export abstract class ActorBase extends Entity implements IActor {
     constructor(id: number, location: WorldCell) {
@@ -20,6 +21,7 @@ export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
     }
 
     behaviors: IBehaviorList<TActor>;
+    currentBehavior?: IBehavior<TActor>;
     currentAction?: IAction<TActor>;
     
     act(): SimulationUpdate[] {
@@ -29,8 +31,9 @@ export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
             }
 
             // If already performing an action from this behaviour, stick with that.
-            if (this.currentAction?.behavior.id !== behavior.id) {
+            if (this.currentBehavior?.id !== behavior.id || this.currentAction === undefined) {
                 // Otherwise, start with the behaviour's first action.
+                this.currentBehavior = behavior;
                 this.currentAction = behavior.actions[0];
             }
 

@@ -1,3 +1,4 @@
+import { getAdjacentIndexes } from 'src/utils/coordinates';
 import { ActorBase } from './Actor';
 import type { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
@@ -5,13 +6,16 @@ import type { SimulationUpdate } from 'src/types/SimulationUpdate';
 
 /** A world is a collection of cells, along with the entities in those cells. */
 export class World {
-    constructor(readonly rows: number, readonly columns: number, cells: Iterable<WorldCell>) {
+    constructor(readonly rows: number, readonly columns: number, cells: ReadonlyArray<WorldCell>) {
         this.allCells = new Set<WorldCell>(cells);
 
         for (const cell of cells) {
             for (const entity of cell.contents) {
                 this.addEntity(entity);
             }
+
+            cell.adjacentCells = getAdjacentIndexes(cell.index, this.columns, this.rows)
+                .map(index => index === null ? null : cells[index]);
         }
     }
 

@@ -12,6 +12,8 @@ export class WorldCell implements IWorldCell {
     ) {
     }
 
+    public adjacentCells: Array<WorldCell | null> = [];
+
     private entities: Set<Entity> = new Set<Entity>();
     private static maxContentSize: number = 2;
     private currentContentSize: number = 0;

@@ -1,6 +1,6 @@
 import type { IActor } from '../types/IActor';
 import type { IAction } from '../types/IAction';
-import type { IBehaviorList } from '../types/IBehaviorList';
+import type { BehaviorList } from '../types/BehaviorList';
 import { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
 import type { SimulationUpdate } from 'src/types/SimulationUpdate';
@@ -15,17 +15,17 @@ export abstract class ActorBase extends Entity implements IActor {
 }
 
 export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
-    constructor(id: number, location: WorldCell, behaviors: IBehaviorList<TActor>) {
+    constructor(id: number, location: WorldCell, behaviors: BehaviorList<TActor>) {
         super(id, location)
         this.behaviors = behaviors;
     }
 
-    behaviors: IBehaviorList<TActor>;
+    behaviors: BehaviorList<TActor>;
     currentBehavior?: IBehavior<TActor>;
     currentAction?: IAction<TActor>;
     
     act(): SimulationUpdate[] {
-        for (const behavior of this.behaviors.behaviors) {
+        for (const behavior of this.behaviors) {
             if (behavior.conditions.some(condition => !condition.isSatisfied(this as unknown as TActor))) {
                 continue; // Skip this behavior if any condition is not satisfied.
             }
@@ -51,7 +51,7 @@ export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
         return [];
     }
 
-    replaceBehavior(behaviors: IBehaviorList<TActor>): void {
+    replaceBehavior(behaviors: BehaviorList<TActor>): void {
         this.behaviors = behaviors;
 
         // Reset the current behavior and action, so the actor will start with the first action of the new behavior.

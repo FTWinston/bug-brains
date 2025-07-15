@@ -1,11 +1,11 @@
 import { CellSet } from './CellSetDisplay'
 import { useSimulationWorker } from '../hooks/useSimulationWorker';
 import type { IWorldState } from 'src/types/IWorldState';
-import type { IAntBehavior } from 'src/types/IAntBehavior';
+import type { AntBehaviorList } from 'src/types/AntBehavior';
 
 interface Props {
     worldIdentifier: string;
-    behavior: IAntBehavior;
+    behavior: AntBehaviorList;
 }
 
 export const World: React.FC<Props> = (props) => {

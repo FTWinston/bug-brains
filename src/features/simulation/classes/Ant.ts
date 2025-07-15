@@ -1,11 +1,11 @@
 import { EntityType } from 'src/types/EntityType';
 import type { IEntityState } from 'src/types/IEntityState';
-import type { IBehaviorList } from '../types/IBehaviorList';
+import type { BehaviorList } from '../types/BehaviorList';
 import { Actor } from './Actor';
 import type { WorldCell } from './WorldCell';
 
 export class Ant extends Actor<Ant> {
-    constructor(id: number, location: WorldCell, behavior: IBehaviorList<Ant>) {
+    constructor(id: number, location: WorldCell, behavior: BehaviorList<Ant>) {
         super(id, location, behavior);
     }
 

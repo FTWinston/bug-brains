@@ -1,23 +1,21 @@
-import type { IAntBehavior } from 'src/types/IAntBehavior';
-import { MoveRandomly } from '../classes/actions/MoveRandomly';
+import type { AntBehaviorList } from 'src/types/AntBehavior';
 import type { Ant } from '../classes/Ant';
-import { IsIndoors } from '../classes/conditions/IsIndoors';
-import type { IBehaviorList } from '../types/IBehaviorList';
+import type { BehaviorList } from '../types/BehaviorList';
+import { parseAntAction } from './parseAntAction';
+import { parseAntCondition } from './parseAntCondition';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function parseAntBehavior(_behavior: IAntBehavior): IBehaviorList<Ant> {
-    // TODO: this
-    return {
-        behaviors: [
-            {
-                id: 1,
-                conditions: [
-                    new IsIndoors(true),
-                ],
-                actions: [
-                    new MoveRandomly(), 
-                ],
-            }
-        ]
-    };
+export function parseAntBehavior(behaviors: AntBehaviorList): BehaviorList<Ant> {
+    return behaviors.map(behavior => {  
+        const parsedBehavior = {
+            id: behavior.id,
+            conditions: behavior.conditions.map(parseAntCondition),
+            actions: behavior.actions.map(parseAntAction),
+        };
+        
+        for (let i = 0; i < parsedBehavior.actions.length - 1; i++) {
+            parsedBehavior.actions[i].nextAction = parsedBehavior.actions[i + 1];
+        }
+
+        return parsedBehavior;
+    });
 }

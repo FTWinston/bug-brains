@@ -4,7 +4,7 @@ import type { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
 import type { SimulationUpdate } from 'src/types/SimulationUpdate';
 import { Ant } from './Ant';
-import type { IBehaviorList } from '../types/IBehaviorList';
+import type { BehaviorList } from '../types/BehaviorList';
 
 /** A world is a collection of cells, along with the entities in those cells. */
 export class World {
@@ -82,7 +82,7 @@ export class World {
         return actions;
     }
 
-    public replaceAntBehavior(behavior: IBehaviorList<Ant>): void {
+    public replaceAntBehavior(behavior: BehaviorList<Ant>): void {
         for (const ant of this.allAnts) {
             ant.replaceBehavior(behavior);
         }

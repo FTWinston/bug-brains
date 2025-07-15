@@ -2,11 +2,18 @@ import type { IAction } from '../../types/IAction';
 import type { Ant } from '../Ant';
 import type { SimulationUpdate } from 'src/types/SimulationUpdate';
 import { CellType } from 'src/types/CellType';
+import type { MoveRandomlyAction } from 'src/types/AntAction';
 
 export class MoveRandomly implements IAction<Ant> {
-    public type = 'moveRandomly';
+    static readonly type: MoveRandomlyAction['type'] = 'move random';
+    public readonly type = MoveRandomly.type;
 
     constructor(public nextAction?: IAction<Ant>) {
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    static parse(_action: MoveRandomlyAction): MoveRandomly {
+        return new MoveRandomly();
     }
 
     performStep(entity: Ant): [boolean, SimulationUpdate[]] {

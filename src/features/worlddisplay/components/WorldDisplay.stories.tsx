@@ -13,8 +13,21 @@ type Story = StoryObj<typeof World>;
 export const Simple: Story = {
     args: {
         worldIdentifier: 'simpleWorld',
-        behavior: {
-            behaviors: [],
-        }
+        behavior: [
+            {
+                id: 1,
+                conditions: [
+                    {
+                        type: 'indoors',
+                        is: true,
+                    },
+                ],
+                actions: [
+                    {
+                        type: 'move random',
+                    },
+                ],
+            }
+        ],
     }
 }

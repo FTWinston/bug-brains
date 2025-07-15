@@ -1,14 +1,14 @@
-import type { IAntBehavior } from './IAntBehavior';
+import type { AntBehaviorList } from './AntBehavior';
 
 type InitAction = {
     type: 'init';
     id: string;
-    behavior: IAntBehavior;
+    behavior: AntBehaviorList;
 }
 
 type BehaviorAction = {
     type: 'behavior';
-    behavior: IAntBehavior;
+    behavior: AntBehaviorList;
 }
 
 export type WorldDisplayAction = InitAction | BehaviorAction;

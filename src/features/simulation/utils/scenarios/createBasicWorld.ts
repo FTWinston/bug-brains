@@ -3,9 +3,9 @@ import { World } from '../../classes/World';
 import { WorldCell } from '../../classes/WorldCell';
 import { CellType } from 'src/types/CellType';
 import { indexFromCoordinate } from 'src/utils/coordinates';
-import type { IBehaviorList } from '../../types/IBehaviorList';
+import type { BehaviorList } from '../../types/BehaviorList';
 
-export function createBasicWorld(antBehavior: IBehaviorList<Ant>): World {
+export function createBasicWorld(antBehavior: BehaviorList<Ant>): World {
     const rows = 24;
     const columns = 30;
 

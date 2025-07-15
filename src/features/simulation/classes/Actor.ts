@@ -50,4 +50,12 @@ export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
 
         return [];
     }
+
+    replaceBehavior(behaviors: IBehaviorList<TActor>): void {
+        this.behaviors = behaviors;
+
+        // Reset the current behavior and action, so the actor will start with the first action of the new behavior.
+        this.currentBehavior = undefined;
+        this.currentAction = undefined;
+    }
 }

@@ -3,6 +3,8 @@ import { ActorBase } from './Actor';
 import type { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
 import type { SimulationUpdate } from 'src/types/SimulationUpdate';
+import { Ant } from './Ant';
+import type { IBehaviorList } from '../types/IBehaviorList';
 
 /** A world is a collection of cells, along with the entities in those cells. */
 export class World {
@@ -22,6 +24,7 @@ export class World {
     private allCells: Set<WorldCell>;
     private allEntities: Map<number, Entity> = new Map<number, Entity>();
     private allActors: Set<ActorBase> = new Set<ActorBase>();
+    private allAnts: Set<Ant> = new Set<Ant>();
 
     public get cells(): ReadonlySet<WorldCell> {
         return this.allCells;
@@ -32,9 +35,13 @@ export class World {
         if (entity instanceof ActorBase) {
             this.allActors.add(entity);
         }
+        if (entity instanceof Ant) {
+            this.allAnts.add(entity);
+        }
     }
 
     public removeEntity(entity: Entity) {
+        this.allAnts.delete(entity as Ant);
         this.allActors.delete(entity as ActorBase);
         this.allEntities.delete(entity.id);
         entity.location.removeEntity(entity);
@@ -73,5 +80,11 @@ export class World {
         }
 
         return actions;
+    }
+
+    public replaceAntBehavior(behavior: IBehaviorList<Ant>): void {
+        for (const ant of this.allAnts) {
+            ant.replaceBehavior(behavior);
+        }
     }
 }

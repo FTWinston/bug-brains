@@ -9,22 +9,39 @@ let world: World | undefined;
 self.addEventListener('message', (event: MessageEvent<WorldDisplayAction>) => {
     // An "init" message should create a World based on a provided identifier, if we haven't already created one.
     // It should then start simulating the world.
-    if (event.data.type === 'init') {
-        if (world !== undefined) {
-            throw new Error('World has already been initialized.');
+    switch (event.data.type) {
+        case 'init': {
+            if (world !== undefined) {
+                throw new Error('World has already been initialized.');
+            }
+
+            const antBehavior = parseAntBehavior(event.data.behavior);
+            
+            console.log('Initializing world:', event.data.id);
+
+            if (event.data.id === 'simpleWorld') {
+                world = createBasicWorld(antBehavior);
+            }
+            else {
+                throw new Error(`Unknown world init id: ${event.data.id}`);
+            }
+
+            simulateWorld(world);
+            break;
         }
 
-        const antBehavior = parseAntBehavior(event.data.behavior);
+        case 'behavior': {
+            if (world === undefined) {
+                throw new Error('World hasn\'t been initialized.');
+            }
 
-        console.log(`Initializing world:`, event.data.id);
-        if (event.data.id === 'simpleWorld') {
-            world = createBasicWorld(antBehavior);
-        }
-        else {
-            throw new Error(`Unknown world init id: ${event.data.id}`);
-        }
+            const antBehavior = parseAntBehavior(event.data.behavior);
 
-        simulateWorld(world);
+            console.log('Changing ant behavior');
+
+            world.replaceAntBehavior(antBehavior);
+            break;
+        }
     }
 });
 

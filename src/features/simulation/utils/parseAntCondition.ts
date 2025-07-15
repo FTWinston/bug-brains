@@ -1,6 +1,6 @@
 import type { Ant } from '../classes/Ant';
 import { IsIndoors } from '../classes/conditions/IsIndoors';
-import type { AntCondition } from 'c:/Users/ftwin/Documents/Projects/bug-brains/src/types/AntCondition';
+import type { AntCondition } from 'src/types/AntCondition';
 import type { ICondition } from '../types/ICondition';
 import { IsIsolated } from '../classes/conditions/IsIsolated';
 import { assertNever } from 'src/utils/assertNever';

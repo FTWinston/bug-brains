@@ -4,10 +4,8 @@ import { WorldCell } from '../../classes/WorldCell';
 import { CellType } from 'src/types/CellType';
 import { indexFromCoordinate } from 'src/utils/coordinates';
 import type { IBehaviorList } from '../../types/IBehaviorList';
-import { IsIndoors } from '../../classes/conditions/IsIndoors';
-import { MoveRandomly } from '../../classes/actions/MoveRandomly';
 
-export function createBasicWorld() {
+export function createBasicWorld(antBehavior: IBehaviorList<Ant>): World {
     const rows = 24;
     const columns = 30;
 
@@ -26,23 +24,8 @@ export function createBasicWorld() {
         }
     }
 
-    const antBehavior: IBehaviorList<Ant> = {
-        behaviors: [
-            {
-                id: 1,
-                conditions: [
-                    new IsIndoors(true),
-                ],
-                actions: [
-                    new MoveRandomly(), 
-                ],
-            }
-        ]
-    };
-
     new Ant(1, cells[200], antBehavior);
-
-
+    new Ant(2, cells[450], antBehavior);
 
     return new World(rows, columns, cells);
 }

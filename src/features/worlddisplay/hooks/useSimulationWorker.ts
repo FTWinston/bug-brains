@@ -3,6 +3,7 @@ import type { DisplayState } from '../types/DisplayState';
 import type { IWorldState } from 'src/types/IWorldState';
 import { displayReducer } from '../utils/displayReducer';
 import type { SimulationUpdate } from 'src/types/SimulationUpdate';
+import type { IAntBehavior } from 'src/types/IAntBehavior';
 
 const createEmptyState: () => DisplayState = () => ({
     columns: 0,
@@ -10,7 +11,7 @@ const createEmptyState: () => DisplayState = () => ({
     entityCells: {},
 });
 
-export function useSimulationWorker(worldIdentifier: string): IWorldState {
+export function useSimulationWorker(worldIdentifier: string, behavior: IAntBehavior): IWorldState {
     const [state, update] = useReducer(displayReducer, undefined, createEmptyState)
     
     useEffect(() => {
@@ -22,7 +23,11 @@ export function useSimulationWorker(worldIdentifier: string): IWorldState {
         worker.addEventListener('message', handleMessage);
         
         // Send a message to the worker, telling it which world to initialize.
-        worker.postMessage({ type: 'init', id: worldIdentifier });
+        worker.postMessage({
+            type: 'init',
+            id: worldIdentifier,
+            behavior,
+        });
         
         // Remove the event listener and terminate the worker when this component unmounts.
         return () => {

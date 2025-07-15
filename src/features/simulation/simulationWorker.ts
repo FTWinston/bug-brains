@@ -1,6 +1,7 @@
 import type { WorldDisplayAction } from 'src/types/WorldDisplayAction';
 import type { World } from './classes/World';
 import { createBasicWorld } from './utils/scenarios/createBasicWorld';
+import { parseAntBehavior } from './utils/parseAntBehavior';
 
 let world: World | undefined;
 
@@ -13,9 +14,11 @@ self.addEventListener('message', (event: MessageEvent<WorldDisplayAction>) => {
             throw new Error('World has already been initialized.');
         }
 
+        const antBehavior = parseAntBehavior(event.data.behavior);
+
         console.log(`Initializing world:`, event.data.id);
         if (event.data.id === 'simpleWorld') {
-            world = createBasicWorld();
+            world = createBasicWorld(antBehavior);
         }
         else {
             throw new Error(`Unknown world init id: ${event.data.id}`);

@@ -9,6 +9,8 @@ export type IEntitySpecific = {
     type: EntityType.Ant;
     color?: 'red' | 'blue';
 } | {
+    type: EntityType.Queen;
+} | {
     type: EntityType.Food;
     quantity: number;
 } | {

@@ -1,5 +1,6 @@
 export enum EntityType {
     Ant = 1,
-    Food = 2,
-    Rock = 3,
+    Queen = 2,
+    Food = 3,
+    Rock = 4,
 }

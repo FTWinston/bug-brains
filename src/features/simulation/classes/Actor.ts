@@ -5,26 +5,71 @@ import { Entity } from './Entity';
 import type { WorldCell } from './WorldCell';
 import type { SimulationUpdate } from 'src/types/SimulationUpdate';
 import type { IBehavior } from '../types/IBehavior';
+import type { IActorSettings } from '../types/IActorSettings';
 
 export abstract class ActorBase extends Entity implements IActor {
-    constructor(id: number, location: WorldCell) {
+    constructor(id: number, location: WorldCell, private readonly settings: IActorSettings) {
         super(id, location);
+        this._health = this.settings.maxHealth;
+        this._satietyLevel = this.settings.initialSatiety;
+    }
+
+    private _health: number;
+    private _satietyLevel: number;
+
+    public get health() {
+        return this._health;
+    }
+
+    public hurt(healthDrainAmount: number) {
+        this._health -= healthDrainAmount;
+
+        if (this._health < 0) {
+            this._health = 0; // Ensure health does not go below zero.
+
+            // TODO: Trigger death logic here, if needed.
+        }
+    }
+
+    /** How much food is in the stomach. 0 means starving. Health drains immediately. */
+    public get satietyLevel() {
+        return this._satietyLevel;
+    }
+
+    public eat(foodQuantity: number) {
+        this._satietyLevel += foodQuantity;
+    }
+
+    protected update() {
+        this._satietyLevel -= this.settings.satietyDrainRate;
+
+        if (this._satietyLevel < 0) {
+            this._satietyLevel = 0;
+
+            this.hurt(this.settings.satietyDrainRate);
+        }
     }
 
     abstract act(): SimulationUpdate[];
 }
 
-export abstract class Actor<TActor extends Actor<TActor>> extends ActorBase {
-    constructor(id: number, location: WorldCell, behaviors: BehaviorList<TActor>) {
-        super(id, location)
+export abstract class Actor<TActor extends Actor<TActor>, TSettings extends IActorSettings = IActorSettings> extends ActorBase {
+    constructor(id: number, location: WorldCell, behaviors: BehaviorList<TActor>, settings: TSettings) {
+        super(id, location, settings)
         this.behaviors = behaviors;
     }
 
     behaviors: BehaviorList<TActor>;
     currentBehavior?: IBehavior<TActor>;
     currentAction?: IAction<TActor>;
-    
+
     act(): SimulationUpdate[] {
+        this.update();
+
+        if (this.health <= 0) {
+            return []; // An actor that is dead does not act. (But we should have a dying update, right?)
+        }
+
         for (const behavior of this.behaviors) {
             if (behavior.conditions.some(condition => !condition.isSatisfied(this as unknown as TActor))) {
                 continue; // Skip this behavior if any condition is not satisfied.

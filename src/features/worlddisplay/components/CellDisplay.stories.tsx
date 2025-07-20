@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Cell } from './CellDisplay';
 import { CellType } from 'src/types/CellType';
+import { ScentType } from 'src/types/ScentType';
 
 const meta = {
     title: 'Cell',
@@ -20,6 +21,9 @@ export const SolidWall: Story = {
 export const UndergroundSpace: Story = {
     args: {
         cellType: CellType.UndergroundSpace,
+        scents: {
+            [ScentType.Food]: 0.5
+        }
     }
 }
 

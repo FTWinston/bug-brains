@@ -27,6 +27,7 @@ export const CellSet: React.FC<Props> = props => {
             <Cell
                 key={index}
                 cellType={cell.type}
+                scents={cell.scents}
                 contents={cell.contents}
                 onClick={onClick?.bind(null, index)}
                 gridColumn={col}

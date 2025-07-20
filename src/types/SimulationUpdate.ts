@@ -1,5 +1,6 @@
 import type { CellType } from './CellType';
 import type { IEntityState, IEntitySpecific } from './IEntityState';
+import type { ScentType } from './ScentType';
 
 type ResetUpdate = {
     type: 'reset';
@@ -36,4 +37,11 @@ type UpdateEntityUpdate = {
     ent: Partial<IEntitySpecific>;
 }
 
-export type SimulationUpdate = ResetUpdate | CellUpdate | AddEntityUpdate | RemoveEntityUpdate | MoveEntityUpdate | UpdateEntityUpdate;
+type ScentUpdate = {
+    type: 'sce';
+    loc: number;
+    scent: ScentType;
+    str: number;
+}
+
+export type SimulationUpdate = ResetUpdate | CellUpdate | AddEntityUpdate | RemoveEntityUpdate | MoveEntityUpdate | UpdateEntityUpdate | ScentUpdate;

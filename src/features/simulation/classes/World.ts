@@ -5,6 +5,7 @@ import type { WorldCell } from './WorldCell';
 import type { SimulationUpdate } from 'src/types/SimulationUpdate';
 import { Ant } from './Ant';
 import type { BehaviorList } from '../types/BehaviorList';
+import { CellType } from 'src/types/CellType';
 
 /** A world is a collection of cells, along with the entities in those cells. */
 export class World {
@@ -72,14 +73,37 @@ export class World {
         return actions;;
     }
 
-    public actAllEntitiesAndGetUpdates(): SimulationUpdate[] {
-        const actions: SimulationUpdate[] = [];
+    public simulate(): SimulationUpdate[] {
+        const updates: SimulationUpdate[] = [];
 
-        for (const actor of this.allActors) {
-            actions.push(...actor.act());
+        // First, diffuse all scents in the world.
+        for (const cell of this.allCells) {
+            for (const [type, strength] of cell.scents.entries()) {
+                // Diffuse the scent to adjacent cells.
+                const increment = strength * 0.1;
+                for (const adjacentCell of cell.adjacentCells) {
+                    if (adjacentCell && adjacentCell.type !== CellType.SolidWall) {
+                        const update = adjacentCell.addScent(type, increment);
+                        if (update) {
+                            updates.push(update);
+                        }
+                    }
+                }
+
+                // Reduce the strength of the scent in the current cell.
+                const update = cell.addScent(type, -strength * 0.2);
+                if (update) {
+                    updates.push(update);
+                }
+            }
         }
 
-        return actions;
+        // Then, allow each actor to act.
+        for (const actor of this.allActors) {
+            updates.push(...actor.act());
+        }
+
+        return updates;
     }
 
     public replaceAntBehavior(behavior: BehaviorList<Ant>): void {

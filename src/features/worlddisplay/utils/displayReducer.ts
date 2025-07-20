@@ -78,7 +78,8 @@ export function displayReducer(state: DisplayState, updates: SimulationUpdate[])
                 state = {
                     cells: update.cells
                         .map(cellType => ({
-                            type: cellType
+                            type: cellType,
+                            scents: {},
                         })),
                     columns: update.columns,
                     entityCells: {},
@@ -157,6 +158,21 @@ export function displayReducer(state: DisplayState, updates: SimulationUpdate[])
                 }
 
                 updateInCellContents(state, cellIndex, update.id, update.ent);
+                break;
+            }
+
+            case 'sce': {
+                // Reassign cell and cell's scents.
+                const cell = { ...state.cells[update.loc] };
+                state.cells[update.loc] = cell;
+                cell.scents = { ...cell.scents }
+
+                // Remove this scent from the cell, or update its strength if non-zero.
+                if (update.str <= 0) {
+                    delete cell.scents[update.scent];
+                } else {
+                    cell.scents[update.scent] = update.str;
+                }
                 break;
             }
                 
